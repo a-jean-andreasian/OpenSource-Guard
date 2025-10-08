@@ -35,7 +35,7 @@ This license is effective until terminated. Your rights under this license will 
 This license shall be governed by and construed in accordance with the laws of the jurisdiction of the copyright holder.
 
 ---
-
+## Author and owner
 Armen-Jean Andreasian, 2025
 
 ---
