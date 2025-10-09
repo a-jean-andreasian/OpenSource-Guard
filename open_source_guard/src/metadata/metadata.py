@@ -1,6 +1,6 @@
 import os
 from multiprocessing import Lock
-from open_source_guard.src.shared import POSSIBLE_ALGORITHMS
+from open_source_guard.src.algorithms import POSSIBLE_ALGORITHMS
 
 
 class MetadataBase:

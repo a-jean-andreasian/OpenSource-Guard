@@ -1,14 +1,14 @@
 from os import PathLike
 from typing import TYPE_CHECKING, Iterable
-from open_source_guard.src.shared import TransactionResult
+from open_source_guard.src.transactions import TransactionResult
 from multiprocessing import Lock
-from open_source_guard.src.jobs.post_encryption_jobs import DecryptionFinalizerJob, EncryptionFinalizerJob
+from open_source_guard.src.jobs.post_processing_jobs import PostDecryptionJobManager, PostEncryptionJobManager
 from open_source_guard.src.file_record import FileRecord
 from .base import CipherExecutorBase
 
 if TYPE_CHECKING:
     from open_source_guard.src.metadata import MetadataDumper, MetadataLoader
-    from open_source_guard.src.shared import AlgorithmType
+    from open_source_guard.src.algorithms import AlgorithmType
 
 
 class CipherExecutorExtended:
@@ -29,7 +29,10 @@ class CipherExecutorExtended:
                     transactions_completed = False
                     break
                 metadata_dumper.add_metadata(file_record_dict=file_record.to_dict())
-        return EncryptionFinalizerJob.finalize(metadata_dumper, transactions_completed)
+        return PostEncryptionJobManager.run_jobs(
+            metadata_dumper=metadata_dumper,
+            transactions_completed=transactions_completed
+        )
 
     def decrypt_files(self, metadata_loader: "MetadataLoader"):
         with self.exec_lock:
@@ -40,4 +43,5 @@ class CipherExecutorExtended:
                 if not transaction_result.status:
                     transactions_completed = False
                     break
-        return DecryptionFinalizerJob.finalize(transactions_completed, metadata_loader)
+        return PostDecryptionJobManager.run_jobs(transactions_completed=transactions_completed,
+                                                 metadata_loader=metadata_loader)

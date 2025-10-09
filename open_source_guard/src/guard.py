@@ -1,5 +1,5 @@
 from .cipher_excutor import CipherExecutorExtended
-from open_source_guard.src.shared.algorithms import AlgorithmType
+from open_source_guard.src.algorithms import AlgorithmType
 import os
 from typing import TYPE_CHECKING, Container
 

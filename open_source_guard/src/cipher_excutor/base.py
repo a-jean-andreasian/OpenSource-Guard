@@ -1,5 +1,5 @@
 import os
-from open_source_guard.src.shared import TransactionResult
+from open_source_guard.src.transactions import TransactionResult
 from .helpers import read_file, write_to_file
 from open_source_guard.src.file_record import FileRecord
 

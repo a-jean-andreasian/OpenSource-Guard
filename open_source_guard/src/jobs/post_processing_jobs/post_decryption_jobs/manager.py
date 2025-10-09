@@ -1,14 +1,18 @@
 import os
-
-from open_source_guard import MetadataLoader
 from open_source_guard.src.cipher_excutor.helpers import delete_file
 from open_source_guard.src.file_record import FileRecord
-from open_source_guard.src.shared import TransactionResult
+from open_source_guard.src.transactions import TransactionResult
+from open_source_guard.src.jobs.post_processing_jobs.base import AbsPostProcessingJobManager
+import typing
+
+if typing.TYPE_CHECKING:
+    from open_source_guard.src.metadata import MetadataLoader
 
 
-class DecryptionFinalizerJob:
+
+class PostDecryptionJobManager(AbsPostProcessingJobManager):
     @staticmethod
-    def finalize(transactions_completed: bool, metadata_loader: "MetadataLoader") -> TransactionResult:
+    def run_jobs(transactions_completed: bool, metadata_loader: "MetadataLoader") -> TransactionResult:
         """
         Finalizes the decryption process by cleaning up outputs or flushing metadata.
 

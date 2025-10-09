@@ -21,7 +21,7 @@
 ## What problem does this tool solve?
 
 - We are living times that anything public means it's not yours anymore.
-- Anyone can grab your code, laugh at the licence file of it, then reuse, repurpose, republish as their own, feed it to
+- Anyone can grab your code, laugh at the licence, then reuse, repurpose, republish as their own, feed it to
   AI crawlers.
 - Most “open-source protection” advice is utopian: blocklists, licenses, code etiquette.
 - In reality, as in life the majority doesn't respect the rules but respect the gun.

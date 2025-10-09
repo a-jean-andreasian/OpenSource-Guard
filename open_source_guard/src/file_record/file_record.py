@@ -4,9 +4,8 @@ from typing import TYPE_CHECKING, Type, Union, Optional
 from pathlib import Path
 from open_source_guard.src.key_record import EncryptionKeyRecord
 from .helpers import get_folder_path_and_filename, encode_filepath
-
-if TYPE_CHECKING:
-    from cryptography.hazmat.primitives.ciphers.aead import AESGCM, ChaCha20Poly1305
+from open_source_guard.src.algorithms import AlgorithmType
+from ._type import FileRecordAsDictType
 
 
 class FileRecord:
@@ -29,7 +28,7 @@ class FileRecord:
     def __init__(
         self,
         filepath: PathLike,
-        algorithm: Type[Union["AESGCM", "ChaCha20Poly1305"]],
+        algorithm: AlgorithmType,
         key: Optional[bytes] = None,
         use_environ: bool = False,
         environ_key: Optional[str] = None,
@@ -50,7 +49,7 @@ class FileRecord:
         folder, self.filename = get_folder_path_and_filename(original_filepath=self.filepath)
         self.encoded_filepath = encode_filepath(folder, self.filename, key=self.key_record.key_b64_text)
 
-    def to_dict(self):
+    def to_dict(self) -> FileRecordAsDictType:
         """Serialize the record to a dictionary suitable for JSON storage."""
         return {
             "filepath": self.filepath,
