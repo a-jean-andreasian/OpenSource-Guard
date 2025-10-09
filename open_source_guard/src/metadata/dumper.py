@@ -1,6 +1,6 @@
 import json
-
 from open_source_guard.src.metadata.metadata import MetadataBase
+from open_source_guard.src.jobs.responses import SingleJobResult
 
 
 class MetadataDumper(MetadataBase):
@@ -12,7 +12,12 @@ class MetadataDumper(MetadataBase):
             raise TypeError("file_record must be a dictionary structure of a FileRecord object.")
         self.current_metadata.append(file_record_dict)
 
-    def dump_metadata(self) -> None:
-        with self.lock:
-            with open(self.metadata_file, "w", encoding='utf-8') as f:
-                json.dump(self.current_metadata, f, indent=4)
+    def dump_metadata(self) -> SingleJobResult:
+        try:
+            with self.lock:
+                with open(self.metadata_file, "w", encoding='utf-8') as f:
+                    json.dump(self.current_metadata, f, indent=4)
+            return SingleJobResult(status=True, job=MetadataDumper.dump_metadata)
+        except Exception as e:
+            return (
+                SingleJobResult(status=False, msg=str(e), job=MetadataDumper.dump_metadata))

@@ -1,7 +1,7 @@
 import os
 import base64
 from typing import Optional
-from .helpers import take_std_key, take_key_from_environ, ensure_bytes
+from ._helpers import take_std_key, take_key_from_environ, ensure_bytes
 
 
 class EncryptionKeyRecord:

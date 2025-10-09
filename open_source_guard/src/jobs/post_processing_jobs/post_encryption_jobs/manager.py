@@ -1,9 +1,9 @@
-import os
-from open_source_guard.src.cipher_excutor.helpers import delete_file
-from open_source_guard.src.transactions import TransactionResult
-from open_source_guard.src.file_record import FileRecordAsDictType
 from open_source_guard.src.jobs.post_processing_jobs.base import AbsPostProcessingJobManager
 import typing
+from open_source_guard.src.jobs.post_processing_jobs.shared import delete_leftovers
+from open_source_guard.src.jobs.responses import SingleJobResult, JobManagerResult
+from open_source_guard.src.shared.types import EncryptionTransaction
+
 
 if typing.TYPE_CHECKING:
     from open_source_guard.src.metadata import MetadataDumper
@@ -11,42 +11,48 @@ if typing.TYPE_CHECKING:
 
 
 class PostEncryptionJobManager(AbsPostProcessingJobManager):
-    @staticmethod
-    def run_jobs(metadata_dumper: "MetadataDumper", transactions_completed: bool) -> TransactionResult:
+    success_msg = "Files have successfully been encrypted."
+    failure_msg = "Failed to encrypt the files"
+    transaction_type = EncryptionTransaction
+
+    @classmethod
+    def run_jobs(cls, metadata_manager: "MetadataDumper", encryptions_completed: bool):
         """
         Finalizes the encryption process by saving metadata or cleaning up partial results.
 
         If all file encryptions were successful, metadata is dumped to json, original files deleted, and dumper flushed.
         If any of encryptions failed, partial encrypted files are deleted and dumper flushed.
 
-        :param metadata_dumper: Object responsible for collecting and writing encryption metadata.
-        :param transactions_completed: Whether all encryption operations were successful.
-        :return: TransactionResult indicating success or failure with a message.
+        :param metadata_manager: Object responsible for collecting and writing encryption metadata.
+        :param encryptions_completed: Whether all encryption operations were successful.
+        :return: CryptoGraphicTransactionResult indicating success or failure with a message.
         """
 
-        def delete_leftovers(metadata: list[FileRecordAsDictType]):
-            """
-            - If transaction was successful - deletes encrypted files created during a failed encryption process.
-            - Otherwise deletes the generated encrypted files so far
-            """
-            try:
-                for file_record_dict in metadata:
-                    if transactions_completed:
-                        file_to_delete = file_record_dict.get("filepath")
-                    else:
-                        file_to_delete = file_record_dict.get("encoded_filepath")
+        failed_jobs: list["SingleJobResult"] = []
 
-                    if file_to_delete and os.path.exists(file_to_delete):
-                        delete_file(file_to_delete)
-            except Exception as e:
-                raise RuntimeError(f"#TODO fix this bug {str(e)}")
+        def run_job(func: typing.Callable, **kwargs) -> typing.Optional["SingleJobResult"]:
+            result = func(**kwargs)
+            if not result.status:
+                failed_jobs.append(result)
+            return result
 
-        if transactions_completed:
-            metadata_dumper.dump_metadata()
-            delete_leftovers(metadata=metadata_dumper.cumulated_metadata)
-            metadata_dumper.flush()
-            return TransactionResult(status=True, msg="Files have successfully been encrypted.")
-        else:
-            delete_leftovers(metadata=metadata_dumper.cumulated_metadata)
-            metadata_dumper.flush()
-            return TransactionResult(status=False, msg="Failed to encrypt")
+        if encryptions_completed:
+            # job 1:  dump metadata
+            run_job(metadata_manager.dump_metadata)
+
+        # job 2: deleting leftovers
+        run_job(
+            func=delete_leftovers,
+            file_records_arr=metadata_manager.cumulated_metadata,
+            transactions_completed=encryptions_completed,
+            transaction_type=cls.transaction_type
+        )
+
+        # final 3: flush metadata_manager | can't fail
+        metadata_manager.flush()
+
+        return JobManagerResult(
+            status=not failed_jobs,
+            failed_jobs=failed_jobs,
+            msg=cls.success_msg if not failed_jobs else cls.failure_msg
+        )

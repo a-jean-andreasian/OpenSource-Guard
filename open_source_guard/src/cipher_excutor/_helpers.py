@@ -42,7 +42,3 @@ def write_to_file(path: PathLike, content: bytes) -> None:
 
     with open(path, mode='wb') as bfile:
         bfile.write(content)
-
-
-def delete_file(path: PathLike) -> None:
-    os.remove(path)

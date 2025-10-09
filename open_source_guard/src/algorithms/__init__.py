@@ -1,2 +1,2 @@
 from ._type import AlgorithmType, AlgorithmNameType
-from .algorithms import POSSIBLE_ALGORITHMS
+from .registry import POSSIBLE_ALGORITHMS

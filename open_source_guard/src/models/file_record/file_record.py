@@ -1,11 +1,11 @@
 import os
 from os import PathLike
-from typing import TYPE_CHECKING, Type, Union, Optional
+from typing import Type, Optional
 from pathlib import Path
-from open_source_guard.src.key_record import EncryptionKeyRecord
-from .helpers import get_folder_path_and_filename, encode_filepath
+from open_source_guard.src.models.key_record import EncryptionKeyRecord
 from open_source_guard.src.algorithms import AlgorithmType
 from ._type import FileRecordAsDictType
+from ._helpers import get_folder_path_and_filename, encode_filepath
 
 
 class FileRecord:

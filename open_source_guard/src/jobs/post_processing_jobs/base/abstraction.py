@@ -2,19 +2,25 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
-    from open_source_guard.src.transactions import TransactionResult
+    from open_source_guard.src.jobs.responses import JobManagerResult
     from open_source_guard.src.metadata import MetadataLoader, MetadataDumper
+    from open_source_guard.src.cipher_excutor import TransactionType
+
 
 
 class AbsPostProcessingJobManager(ABC):
     """Abstract base class for post-processing job managers."""
+    success_msg: str
+    failure_msg: str
+    transaction_type: "TransactionType"
 
-    @staticmethod
+    @classmethod
     @abstractmethod
     def run_jobs(
+        cls,
         transactions_completed: bool,
         metadata_manager: Union["MetadataLoader", "MetadataDumper"],
-    ) -> "TransactionResult":
+    ) -> "JobManagerResult":
         """
         Execute post-processing tasks after encryption or decryption.
 
@@ -22,6 +28,5 @@ class AbsPostProcessingJobManager(ABC):
 
         :param transactions_completed: Whether all transactions were successful.
         :param metadata_manager: Metadata handler instance (loader or dumper).
-        :return: TransactionResult indicating success or failure.
         """
         pass

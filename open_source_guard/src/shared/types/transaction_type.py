@@ -1,4 +1,4 @@
-from typing import Union, Type
+from typing import Type, Union
 
 EncryptionTransaction = object()
 DecryptionTransaction = object()
