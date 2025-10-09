@@ -1,7 +1,6 @@
-# OpenSource Guard
+![logo_banner.png](media/logos_covers/logo_banner.png)
 
 ---
-
 ## Table of content
 
 - Introduction
@@ -23,7 +22,9 @@
 - [Licence](#licence)
 
 ---
+![banner.png](media/logos_covers/banner.png)
 
+----
 ## What problem does this tool solve?
 
 - We are living times that anything public means it's not yours anymore.
@@ -33,8 +34,8 @@
 - In reality, as in life the majority doesn't respect the rules but respect the gun.
 
 TLDR: **This tool gives you hands-on protection for your open-source projects from code stealers.**
----
 
+---
 ## What does this tool protect you from?
 
 - AI crawlers.
