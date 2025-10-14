@@ -28,9 +28,8 @@
 ## What problem does this tool solve?
 
 - We are living times that anything public means it's not yours anymore, especially your open-source code on GitHub.
-- Anyone can grab/crawl your code (by the way GitHub provides enterprise solutions for specially for crawlers. Never read the `robots.txt` of GitHub?), laugh at the licence, then reuse, repurpose, republish as their own, feed it to
-  AI crawlers.
-  - By the way do you even know that any open-source code on GitHub is an [AI-training material?](https://github.com/github/site-policy/commit/68e3dbe6c1d3b3deb21adeaf328685566a364c58)
+- Anyone can grab/crawl your code, laugh at the licence, then reuse, repurpose, republish as their own, feed it to AI crawlers  (by the way GitHub provides enterprise solutions specially for crawlers. Never read the `robots.txt` of GitHub?).
+  - And, did you know that any open-source code on GitHub is an [AI-training material?](https://github.com/github/site-policy/commit/68e3dbe6c1d3b3deb21adeaf328685566a364c58)
 - Most “open-source protection” advice is utopian: blocklists, licenses, code etiquette.
 - In reality, as in life the majority doesn't respect the rules but respect the gun.
 
