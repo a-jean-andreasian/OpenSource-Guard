@@ -27,9 +27,11 @@
 ----
 ## What problem does this tool solve?
 
-- We are living times that anything public means it's not yours anymore, especially your open-source code on GitHub.
-- Anyone can grab/crawl your code, laugh at the licence, then reuse, repurpose, republish as their own, feed it to AI crawlers  (by the way GitHub provides enterprise solutions specially for crawlers. Never read the `robots.txt` of GitHub?).
-  - And, did you know that any open-source code on GitHub is an [AI-training material?](https://github.com/github/site-policy/commit/68e3dbe6c1d3b3deb21adeaf328685566a364c58)
+- We are living times that anything public means it's not yours anymore. Especially your open-source code on GitHub.
+- Anyone can grab your code, laugh at the licence, then reuse, repurpose, republish as their own, feed it to AI crawlers (by the way GitHub provides enterprise solutions specially for crawlers. Never read the `robots.txt` of GitHub?).
+  - And, did you know that any open-source code on GitHub is an [AI-training material by default?](https://github.com/github/site-policy/commit/68e3dbe6c1d3b3deb21adeaf328685566a364c58)
+  - Just in case if you can't imagine what "AI-training material" means - read this [GitHub discussion.](https://github.com/bigcode-project/starcoder/issues/9)
+  - Indeed, it's when your Licence is raped, and your code is given to third party, which absolutely legally licensed it. Hmm, let's think further, what's the problem to steal someone's code and say the AI generated it?
 - Most “open-source protection” advice is utopian: blocklists, licenses, code etiquette.
 - In reality, as in life the majority doesn't respect the rules but respect the gun.
 
